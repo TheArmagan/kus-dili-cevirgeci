@@ -28,9 +28,14 @@
       textarea {
         width: 50vw;
         height: 25vh;
+        max-width: 50vw;
+        max-height: 25vh;
+        min-width: 50vw;
+        min-height: 25vh;
+        display: block;
         background-color: #131313;
         border: 0.2rem solid rgb(209, 209, 209);
-        transition: all 120ms ease-in-out;
+        transition: all 80ms linear;
         color: rgb(221, 221, 221);
         font-size: 1.2rem;
         padding: 1rem;
@@ -62,12 +67,14 @@
           >Kuguş⠀Digiligi⠀Çegevigirgegecigi</span
         >
       </h1>
-      <textarea
-        id="girdi"
-        placeholder="muvaffakiyetsizleştiricileştiriveremeyebileceklerimizdenmişsinizcesine"
-      ></textarea>
-      <br />
-      <textarea id="çıktı" readonly style="opacity: 0.4"></textarea>
+      <textarea id="girdi" placeholder="Türkçe"></textarea>
+      <p
+        style="font-size: 1.2rem; margin: 1rem; opacity: 0.8"
+        title="Her iki taraftanda giriş yapabilirsiniz."
+      >
+        ⬆ Çift Yönlüdür ⬇
+      </p>
+      <textarea id="çıktı" placeholder="Kuş Dili"></textarea>
     </center>
 
     <script>
@@ -75,12 +82,23 @@
       let çıktıElm = document.getElementById("çıktı");
 
       let ünlüRegex = /a|e|ı|i|o|ö|u|ü/gim;
+      let kuşDiliAlgılamaRegexi = /(a|e|ı|i|o|ö|u|ü)g(a|e|ı|i|o|ö|u|ü)/gim;
 
       girdiElm.addEventListener("input", () => {
-        çıktıElm.value = dönüştür(girdiElm.value);
+        if (
+          girdiElm.value.toLowerCase().replace(/[^a-zA-Z0-9]+/gm, "") ==
+          "nevergonnagiveyouup"
+        ) {
+          window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        }
+        çıktıElm.value = normalYazıyıKuşDilineÇevir(girdiElm.value);
       });
 
-      function dönüştür(yazı = "") {
+      çıktıElm.addEventListener("input", () => {
+        girdiElm.value = kuşDiliniNormalYazıyaÇevir(çıktıElm.value);
+      });
+
+      function normalYazıyıKuşDilineÇevir(yazı = "") {
         yazı = yazı.replace(ünlüRegex, (match, matchIndex) => {
           if (
             büyükmüKüçükmü(yazı.charAt(matchIndex)) &&
@@ -94,6 +112,14 @@
 
         yazı = yazı.replace(/ /gm, "⠀");
         return yazı;
+      }
+
+      function kuşDiliniNormalYazıyaÇevir(yazı = "") {
+        return yazı.replace(kuşDiliAlgılamaRegexi, (match, g1, g2) => {
+          if (g1.toLowerCase() == g2.toLowerCase()) {
+            return g1;
+          }
+        });
       }
 
       function büyükmüKüçükmü(char) {
