@@ -115,7 +115,7 @@
 
       function kuşDiliniNormalYazıyaÇevir(yazı = "") {
         return yazı.replace(kuşDiliAlgılamaRegexi, (match, g1, g2) => {
-          if (g1.toLowerCase() == g2.toLowerCase()) {
+          if (g1.toLocaleUpperCase() == g2.toLocaleUpperCase()) {
             return g1;
           }
         });
